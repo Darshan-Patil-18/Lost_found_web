@@ -1,5 +1,3 @@
-import { signInWithEmailAndPassword } from "./firebaseauth.js";
-
 const signUpButton = document.getElementById('signUpButton');
 const signInButton = document.getElementById('signInButton');
 const signInForm = document.getElementById('signIn');
@@ -47,44 +45,8 @@ function togglePassword(inputId, button) {
     }
 }
 
-// Password confirmation validation
-const submitSignUp = document.getElementById('submitSignUp');
-if (submitSignUp) {
-    submitSignUp.addEventListener('click', function(event) {
-        const password = document.getElementById('rPassword')?.value;
-        const confirmPassword = document.getElementById('confirmPassword')?.value;
-        const termsCheckbox = document.getElementById('termsCheckbox');
-        
-        if (password && confirmPassword && password !== confirmPassword) {
-            event.preventDefault();
-            showMessage('Passwords do not match!', 'signUpMessage');
-            return;
-        }
-        
-        if (termsCheckbox && !termsCheckbox.checked) {
-            event.preventDefault();
-            showMessage('Please agree to the Terms and Conditions!', 'signUpMessage');
-            return;
-        }
-    });
-}
 
-// Show message function
-function showMessage(message, divId) {
-    const messageDiv = document.getElementById(divId);
-    if (messageDiv) {
-        messageDiv.textContent = message;
-        messageDiv.style.display = 'block';
-        messageDiv.style.opacity = '1';
-        
-        setTimeout(function() {
-            messageDiv.style.opacity = '0';
-            setTimeout(function() {
-                messageDiv.style.display = 'none';
-            }, 300);
-        }, 5000);
-    }
-}
+
 
 // Terms and Conditions Modal Functions
 function openTermsModal() {

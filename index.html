@@ -3,177 +3,359 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Register & Login</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link rel="stylesheet" href="style.css">
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔍</text></svg>">
+    <title>SAL College Lost & Found System</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .fade-in { animation: fadeIn 0.5s ease-in; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        .highlight { background-color: #fef08a; padding: 2px 4px; border-radius: 2px; }
+        .timer-warning { color: #ef4444; font-weight: bold; }
+        .success-animation { animation: bounce 0.6s ease-in-out; }
+        @keyframes bounce { 0%, 20%, 53%, 80%, 100% { transform: translate3d(0,0,0); } 40%, 43% { transform: translate3d(0,-30px,0); } 70% { transform: translate3d(0,-15px,0); } 90% { transform: translate3d(0,-4px,0); } }
+        .slide-up { animation: slideUp 0.3s ease-out; }
+        @keyframes slideUp { from { transform: translateY(100%); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+    </style>
 </head>
-<body>
-    <!-- Sign Up Container -->
-    <div class="container" id="signup" style="display:none;">
-        <h1 class="form-title">Create Account</h1>
-        <form method="post" action="">
-            <div id="signUpMessage" class="messageDiv" style="display:none;"></div>
-
-            <div class="input-group">
-                <i class="fas fa-user"></i>
-                <input type="text" id="fName" placeholder="Full Name" required>
-            </div>
-
-            <div class="input-group">
-                <i class="fas fa-envelope"></i>
-                <input type="email" id="rEmail" placeholder="Email Address" required>
-            </div>
-
-            <div class="input-group">
-                <i class="fas fa-lock"></i>
-                <input type="password" id="rPassword" placeholder="Password" required>
-                <button type="button" class="password-toggle" onclick="togglePassword('rPassword', this)">
-                    <i class="fas fa-eye"></i>
-                </button>
-            </div>
-
-            <div class="input-group">
-                <i class="fas fa-lock"></i>
-                <input type="password" id="confirmPassword" placeholder="Confirm Password" required>
-                <button type="button" class="password-toggle" onclick="togglePassword('confirmPassword', this)">
-                    <i class="fas fa-eye"></i>
-                </button>
-            </div>
-
-            <div class="checkbox-group">
-                <input type="checkbox" id="termsCheckbox" required>
-                <label for="termsCheckbox">
-                    I agree to the <a href="javascript:void(0)" class="terms-link" onclick="openTermsModal()">Terms and Conditions</a>
-                </label>
-            </div>
-
-            <button type="submit" class="btn btn-primary" id="submitSignUp">
-                Sign Up
-            </button>
-
-            <div class="divider">
-                <span>or continue with</span>
-            </div>
-
-            <button type="button" class="btn btn-google">
-                <i class="fab fa-google"></i>
-                Sign up with Google
-            </button>
-
-            <div class="links">
-                <p>Already signed up? 
-                    <button class="link-btn" id="signInButton">Sign In</button>
-                </p>
-            </div>
-        </form>
-    </div>
-
-    <!-- Sign In Container -->
-    <div class="container" id="signIn">
-        <h1 class="form-title">Welcome Back</h1>
-        <form method="post" action="">
-            <div id="signInMessage" class="messageDiv" style="display:none;"></div>
-
-            <div class="input-group">
-                <i class="fas fa-envelope"></i>
-                <input type="email" id="email" placeholder="Email Address" required>
-            </div>
-
-            <div class="input-group">
-                <i class="fas fa-lock"></i>
-                <input type="password" id="password" placeholder="Password" required>
-                <button type="button" class="password-toggle" onclick="togglePassword('password', this)">
-                    <i class="fas fa-eye"></i>
-                </button>
-            </div>
-
-            <div class="forgot-password">
-                <a href="#" class="forgot-link">Forgot Password?</a>
-            </div>
-
-            <button type="submit" class="btn btn-primary" id="submitSignIn">
-                Sign In
-            </button>
-
-            <div class="divider">
-                <span>or continue with</span>
-            </div>
-
-            <button type="button" class="btn btn-google">
-                <i class="fab fa-google"></i>
-                Sign in with Google
-            </button>
-
-            <div class="links">
-                <p>Not signed up? 
-                    <button class="link-btn" id="signUpButton">Sign Up</button>
-                </p>
-            </div>
-        </form>
-    </div>
-    <!-- Terms and Conditions Modal -->
-<div id="termsModal" class="modal-overlay hidden">
-    <div class="modal-container">
-        <div class="modal-header">
-            <h2>Terms and Conditions</h2>
-            <button class="close-btn" onclick="closeTermsModal()">
-                <i class="fas fa-times"></i>
-            </button>
-        </div>
-        <div class="modal-content">
-            <div class="terms-content">
-                <h3>Last updated: September 2025</h3>
-                
-                <div class="section">
-                    <h4>1. Acceptance of Terms</h4>
-                    <p>By using the SAL College Lost & Found System, you agree to be bound by these Terms and Conditions.</p>
+<body class="bg-gradient-to-br from-blue-50 to-indigo-100 min-h-screen">
+    <nav id="navbar" class="bg-white shadow-lg">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="flex flex-col items-center py-4">
+                <div class="flex items-center justify-center space-x-4 mb-4">
+                    <i class="fas fa-search text-4xl text-blue-600"></i>
+                    <h1 class="text-4xl font-bold text-gray-800">Lost & Found System</h1>
                 </div>
-
-                <div class="section">
-                    <h4>2. User Responsibilities</h4>
-                    <ul>
-                        <li>You must be a current student of SAL College to use this system</li>
-                        <li>Provide accurate information when reporting lost or found items</li>
-                        <li>Respect the privacy and property of others</li>
-                        <li>Use the system only for legitimate lost and found purposes</li>
-                    </ul>
-                </div>
-
-                <div class="section">
-                    <h4>3. Item Reporting</h4>
-                    <p>When reporting found items, you must provide accurate descriptions and contact information. For lost items, provide truthful information to help facilitate returns.</p>
-                </div>
-
-                <div class="section">
-                    <h4>4. Privacy</h4>
-                    <p>Your personal information will be used solely for the purpose of facilitating lost and found item returns and will not be shared with third parties.</p>
-                </div>
-
-                <div class="section">
-                    <h4>5. Prohibited Activities</h4>
-                    <ul>
-                        <li>False reporting of items</li>
-                        <li>Harassment of other users</li>
-                        <li>Commercial use of the system</li>
-                        <li>Any illegal activities</li>
-                    </ul>
-                </div>
-
-                <div class="section">
-                    <h4>6. Limitation of Liability</h4>
-                    <p>SAL College is not responsible for any lost, damaged, or unreturned items. The system serves as a platform to connect finders and owners.</p>
+                <div class="flex items-center space-x-6">
+                    <button onclick="showPage('home')" class="text-gray-600 hover:text-blue-600 hover:bg-blue-50 px-3 py-2 rounded-lg transition-all">
+                        <i class="fas fa-home mr-2"></i>Home
+                    </button>
+                    <button onclick="showPage('report-found')" class="text-gray-600 hover:text-green-600 hover:bg-green-50 px-3 py-2 rounded-lg transition-all">
+                        <i class="fas fa-plus-circle mr-2"></i>Report Found
+                    </button>
+                    <button onclick="showPage('report-lost')" class="text-gray-600 hover:text-red-600 hover:bg-red-50 px-3 py-2 rounded-lg transition-all">
+                        <i class="fas fa-exclamation-circle mr-2"></i>Report Lost
+                    </button>
+                    <button onclick="showPage('search')" class="text-gray-600 hover:text-blue-600 hover:bg-blue-50 px-3 py-2 rounded-lg transition-all">
+                        <i class="fas fa-search mr-2"></i>Search
+                    </button>
+                    <div class="relative">
+                        <button onclick="toggleProfileMenu()" class="flex items-center text-gray-600 hover:text-blue-600 hover:bg-blue-50 px-3 py-2 rounded-lg transition-all">
+                           <img id="user-photo" src="https://i.ibb.co/6y4g0s5/default-avatar.jpg" alt="User" class="w-8 h-8 rounded-full object-cover">
+                           <i class="fas fa-chevron-down ml-2"></i>
+                        </button>
+                        <div id="profileMenu" class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg hidden z-50">
+                            <button onclick="showPage('profile')" class="block w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100">
+                                <i class="fas fa-user mr-2"></i>My Profile
+                            </button>
+                            <button onclick="logout()" class="block w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100">
+                                <i class="fas fa-sign-out-alt mr-2"></i>Logout
+                            </button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="modal-footer">
-            <button class="agree-btn" onclick="closeTermsModal()">
-                I Understand
-            </button>
+    </nav>
+
+    <div class="container mx-auto px-4 py-8">
+        
+        <div id="home-page" class="fade-in">
+             <div class="text-center mb-12">
+                <h1 class="text-5xl font-bold text-gray-800 mb-6">Lost & Found System</h1>
+                <div class="max-w-4xl mx-auto mb-8">
+                    <p class="text-2xl text-blue-600 font-semibold mb-4">🌟 Connecting Hearts, Reuniting Belongings 🌟</p>
+                    <p class="text-lg text-gray-700 leading-relaxed mb-4">
+                        Welcome to our innovative Lost & Found platform - where every lost item finds its way home! 
+                        Our community-driven system transforms the frustration of losing something precious into hope and connection.
+                    </p>
+                    <div class="grid md:grid-cols-3 gap-6 text-center mb-6">
+                        <div class="bg-gradient-to-br from-blue-50 to-blue-100 p-4 rounded-lg">
+                            <i class="fas fa-heart text-2xl text-blue-600 mb-2"></i>
+                            <p class="font-semibold text-blue-800">Built with Care</p>
+                            <p class="text-sm text-blue-600">Every feature designed to help</p>
+                        </div>
+                        <div class="bg-gradient-to-br from-green-50 to-green-100 p-4 rounded-lg">
+                            <i class="fas fa-users text-2xl text-green-600 mb-2"></i>
+                            <p class="font-semibold text-green-800">Community Powered</p>
+                            <p class="text-sm text-green-600">Students helping students</p>
+                        </div>
+                        <div class="bg-gradient-to-br from-purple-50 to-purple-100 p-4 rounded-lg">
+                            <i class="fas fa-magic text-2xl text-purple-600 mb-2"></i>
+                            <p class="font-semibold text-purple-800">Simple & Effective</p>
+                            <p class="text-sm text-purple-600">Find what matters most</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+                    <div class="bg-white rounded-lg shadow-lg p-6">
+                        <div class="text-2xl font-bold text-blue-600" id="totalSubmissions">0</div>
+                        <div class="text-sm text-gray-600">Total Submissions</div>
+                    </div>
+                    <div class="bg-white rounded-lg shadow-lg p-6">
+                        <div class="text-2xl font-bold text-green-600" id="totalFound">0</div>
+                        <div class="text-sm text-gray-600">Found Items</div>
+                    </div>
+                    <div class="bg-white rounded-lg shadow-lg p-6">
+                        <div class="text-2xl font-bold text-red-600" id="totalLost">0</div>
+                        <div class="text-sm text-gray-600">Lost Items</div>
+                    </div>
+                    <div class="bg-white rounded-lg shadow-lg p-6">
+                        <div class="text-2xl font-bold text-purple-600" id="totalReturned">0</div>
+                        <div class="text-sm text-gray-600">Items Returned</div>
+                    </div>
+                </div>
+                <div class="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+                    <div class="bg-white rounded-lg shadow-lg p-8 hover:shadow-xl transition-shadow">
+                        <div class="bg-green-100 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-plus-circle text-2xl text-green-600"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-800 mb-4">Found Something?</h3>
+                        <p class="text-gray-600 mb-6">Report items you've found around campus to help others locate their belongings.</p>
+                        <button onclick="showPage('report-found')" class="bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700 transition-colors">
+                            Report Found Item
+                        </button>
+                    </div>
+                    <div class="bg-white rounded-lg shadow-lg p-8 hover:shadow-xl transition-shadow">
+                        <div class="bg-red-100 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-exclamation-circle text-2xl text-red-600"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-800 mb-4">Lost Something?</h3>
+                        <p class="text-gray-600 mb-6">Report your lost items and get notified when someone finds them.</p>
+                        <button onclick="showPage('report-lost')" class="bg-red-600 text-white px-6 py-3 rounded-lg hover:bg-red-700 transition-colors">
+                            Report Lost Item
+                        </button>
+                    </div>
+                </div>
+                <div class="mt-12">
+                    <button onclick="showPage('search')" class="bg-blue-600 text-white px-8 py-4 rounded-lg hover:bg-blue-700 transition-colors text-lg">
+                        <i class="fas fa-search mr-2"></i>Search All Items
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div id="report-found-page" class="hidden fade-in">
+             <div class="max-w-2xl mx-auto bg-white rounded-lg shadow-lg p-8">
+                <div class="text-center mb-8">
+                    <div class="bg-green-100 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-plus-circle text-2xl text-green-600"></i>
+                    </div>
+                    <h2 class="text-2xl font-bold text-gray-800">Report Found Item</h2>
+                    <p class="text-gray-600">Help someone find their lost belongings</p>
+                </div>
+                <form id="foundItemForm" onsubmit="submitFoundItem(event)">
+                    <div class="grid md:grid-cols-2 gap-6 mb-6">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Item Category</label>
+                            <select name="category" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500">
+                                <option value="">Select Category</option>
+                                <option value="Wallet">Wallet</option>
+                                <option value="Keys">Keys</option>
+                                <option value="ID Card">ID Card</option>
+                                <option value="Books">Books</option>
+                                <option value="Notes">Notes</option>
+                                <option value="Earbuds/Headphones">Earbuds/Headphones</option>
+                                <option value="Charger">Charger</option>
+                                <option value="Water Bottle">Water Bottle</option>
+                                <option value="Bag">Bag</option>
+                                <option value="Laptop">Laptop</option>
+              _                  <option value="Mobile Phone">Mobile Phone</option>
+                                <option value="Others">Others</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Item Name</label>
+                            <input type="text" name="itemName" required placeholder="e.g., iPhone, Wallet, Textbook"
+                                   class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500">
+                        </div>
+                    </div>
+                    <div class="mb-6">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Description</label>
+                        <textarea name="description" rows="4" required placeholder="Describe the item in detail (color, brand, distinctive features, etc.)"
+                                  class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500"></textarea>
+                    </div>
+                    <div class="grid md:grid-cols-2 gap-6 mb-6">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Location Found</label>
+                            <input type="text" name="location" required placeholder="e.g., Library, Cafeteria, Parking Lot"
+                                   class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Date Found</label>
+                            <input type="date" name="dateFound" required
+                                   class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500">
+                        </div>
+                    </div>
+                    <div class="mb-6">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Your Contact Information</label>
+                        <input type="text" name="contactInfo" required placeholder="Phone number or email"
+                               class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500">
+                    </div>
+                    <button type="submit" class="w-full bg-green-600 text-white py-3 px-4 rounded-lg hover:bg-green-700 transition-colors font-medium">
+                        <i class="fas fa-check mr-2"></i>Submit Found Item Report
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <div id="report-lost-page" class="hidden fade-in">
+             <div class="max-w-2xl mx-auto bg-white rounded-lg shadow-lg p-8">
+                <div class="text-center mb-8">
+                    <div class="bg-red-100 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-exclamation-circle text-2xl text-red-600"></i>
+                    </div>
+                    <h2 class="text-2xl font-bold text-gray-800">Report Lost Item</h2>
+                    <p class="text-gray-600">Let others know what you're looking for</p>
+                </div>
+                <form id="lostItemForm" onsubmit="submitLostItem(event)">
+                    <div class="grid md:grid-cols-2 gap-6 mb-6">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Item Category</label>
+                            <select name="category" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500">
+                                <option value="">Select Category</option>
+                                <option value="Wallet">Wallet</option>
+                                <option value="Keys">Keys</option>
+                                <option value="ID Card">ID Card</option>
+                                <option value="Books">Books</option>
+                                <option value="Notes">Notes</option>
+                                <option value="Earbuds/Headphones">Earbuds/Headphones</option>
+                                <option value="Charger">Charger</option>
+                                <option value="Water Bottle">Water Bottle</option>
+                                <option value="Bag">Bag</option>
+                                <option value="Laptop">Laptop</option>
+                                <option value="Mobile Phone">Mobile Phone</option>
+                                <option value="Others">Others</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Item Name</label>
+                            <input type="text" name="itemName" required placeholder="e.g., iPhone, Wallet, Textbook"
+                                   class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500">
+                        </div>
+                    </div>
+                    <div class="mb-6">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Description</label>
+                        <textarea name="description" rows="4" required placeholder="Describe the item in detail (color, brand, distinctive features, etc.)"
+                                  class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500"></textarea>
+                    </div>
+                    <div class="grid md:grid-cols-2 gap-6 mb-6">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Last Seen Location</label>
+                            <input type="text" name="location" required placeholder="e.g., Library, Cafeteria, Parking Lot"
+                                   class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Date Lost</label>
+                            <input type="date" name="dateLost" required
+                                   class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500">
+                        </div>
+                    </div>
+                    <div class="mb-6">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Your Contact Information</label>
+                        <input type="text" name="contactInfo" required placeholder="Phone number or email"
+                               class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500">
+                    </div>
+                    <button type="submit" class="w-full bg-red-600 text-white py-3 px-4 rounded-lg hover:bg-red-700 transition-colors font-medium">
+                        <i class="fas fa-search mr-2"></i>Submit Lost Item Report
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <div id="search-page" class="hidden fade-in">
+             <div class="max-w-4xl mx-auto">
+                <div class="bg-white rounded-lg shadow-lg p-8 mb-8">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-6">Search Items</h2>
+                    <div class="grid md:grid-cols-3 gap-4 mb-6">
+                        <input type="text" id="searchQuery" placeholder="Search by item name or description"
+                               class="px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                               oninput="searchItems()">
+                        <select id="searchCategory" class="px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                                onchange="searchItems()">
+                            <option value="">All Categories</option>
+                            <option value="Wallet">Wallet</option>
+                            <option value="Keys">Keys</option>
+                            <option value="ID Card">ID Card</option>
+                            <option value="Books">Books</option>
+                            <option value="Notes">Notes</option>
+                            <option value="Earbuds/Headphones">Earbuds/Headphones</option>
+                            <option value="Charger">Charger</option>
+                            <option value="Water Bottle">Water Bottle</option>
+                            <option value="Bag">Bag</option>
+                            <option value="Laptop">Laptop</option>
+                            <option value="Mobile Phone">Mobile Phone</option>
+                            <option value="Others">Others</option>
+                        </select>
+                        <select id="searchType" class="px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                                onchange="searchItems()">
+                            <option value="">Found & Lost Items</option>
+                            <option value="found">Found Items Only</option>
+                            <option value="lost">Lost Items Only</option>
+                        </select>
+                    </div>
+                    <button onclick="searchItems()" class="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors">
+                        <i class="fas fa-search mr-2"></i>Search
+                    </button>
+                </div>
+                <div id="searchResults" class="grid md:grid-cols-2 gap-6">
+                                    </div>
+            </div>
+        </div>
+
+        <div id="profile-page" class="hidden fade-in">
+            <div class="max-w-2xl mx-auto bg-white rounded-lg shadow-lg p-8">
+                <div class="text-center mb-8">
+                    <div class="bg-blue-100 rounded-full w-20 h-20 flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-user text-3xl text-blue-600"></i>
+                    </div>
+                    <h2 class="text-2xl font-bold text-gray-800" id="profileName">Student Profile</h2>
+                    <p class="text-gray-600" id="profileEnrollment">Enrollment ID: </p>
+                    <p class="text-gray-600" id="profileDepartment">Department: </p>
+                </div>
+                <div class="space-y-6">
+                    <div>
+                        <h3 class="text-lg font-semibold text-gray-800 mb-4">My Reported Items</h3>
+                        <div id="userItems" class="space-y-4">
+                            </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-</div>
 
-   <script type="module" src="script.js"></script>
+    <footer class="bg-gray-800 text-white py-8 mt-16">
+         <div class="max-w-7xl mx-auto px-4 text-center">
+            <div class="mb-4">
+                <i class="fas fa-search text-2xl text-blue-400 mb-2"></i>
+                <p class="text-lg font-semibold">Lost & Found System</p>
+                <p class="text-gray-400">Connecting Hearts, Reuniting Belongings</p>
+            </div>
+            <div class="border-t border-gray-700 pt-4">
+                <p class="text-gray-400">
+                    © 2024 All Rights Reserved to <span class="text-blue-400 font-semibold">Darshan Patil</span>
+                </p>
+                <p class="text-sm text-gray-500 mt-2">
+                    Developed with ❤️ for SAL College Community
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <div id="successModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
+        <div class="bg-white rounded-lg p-8 max-w-md mx-4 slide-up">
+            <div class="text-center">
+                <div class="bg-green-100 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4 success-animation">
+                    <i class="fas fa-check text-2xl text-green-600"></i>
+                </div>
+                <h3 class="text-xl font-bold text-gray-800 mb-2">Success!</h3>
+                <p id="successMessage" class="text-gray-600 mb-6">Your item has been reported successfully.</p>
+                <button onclick="closeSuccessModal()" class="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors">
+                    Continue
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="main.js"></script>
 </body>
 </html>

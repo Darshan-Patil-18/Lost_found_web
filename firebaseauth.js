@@ -61,14 +61,36 @@ function showMessage(message, divId) {
     }
 }
 
+// This is the new, complete code block for firebaseauth.js
 const signUp = document.getElementById('submitSignUp');
 if (signUp) {
     signUp.addEventListener('click', (event) => {
-        event.preventDefault();
-        const email = document.getElementById('rEmail').value;
-        const password = document.getElementById('rPassword').value;
-        const name = document.getElementById('fName').value;
+        event.preventDefault(); // Stop the form from submitting
 
+        // --- Validation logic moved from script.js ---
+        const password = document.getElementById('rPassword')?.value;
+        const confirmPassword = document.getElementById('confirmPassword')?.value;
+        const termsCheckbox = document.getElementById('termsCheckbox');
+
+        if (!password || !confirmPassword || !termsCheckbox) {
+             console.error("Could not find password or terms elements");
+             return;
+        }
+
+        if (password !== confirmPassword) {
+            showMessage('Passwords do not match!', 'signUpMessage');
+            return; // Stop execution
+        }
+        
+        if (!termsCheckbox.checked) {
+            showMessage('Please agree to the Terms and Conditions!', 'signUpMessage');
+            return; // Stop execution
+        }
+        // --- End of validation logic ---
+
+        // Existing auth logic (now runs only if validation passes)
+        const email = document.getElementById('rEmail').value;
+        const name = document.getElementById('fName').value;
         const auth = getAuth();
         const db = getFirestore();
 

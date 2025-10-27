@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Form Data Storage</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f2f6ff;
+      color: #333;
+      margin: 0;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 500px;
+      margin: 0 auto;
+      background: #fff;
+      padding: 20px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+    }
+
+    h1 {
+      text-align: center;
+      color: #3366cc;
+      margin-bottom: 10px;
+    }
+
+    p {
+      text-align: center;
+      color: #666;
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: bold;
+      color: #444;
+    }
+
+    input[type="text"] {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 15px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 15px;
+    }
+
+    input[type="text"]:focus {
+      border-color: #3366cc;
+      outline: none;
+    }
+
+    .button-group {
+      display: flex;
+      gap: 10px;
+    }
+
+    button {
+      flex: 1;
+      padding: 10px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 15px;
+      font-weight: bold;
+    }
+
+    .submit-btn {
+      background-color: #3366cc;
+      color: #fff;
+    }
+
+    .reset-btn {
+      background-color: #eee;
+      color: #333;
+    }
+
+    .result {
+      margin-top: 15px;
+      padding: 10px;
+      background: #f9f9f9;
+      border-left: 4px solid #3366cc;
+      display: none;
+    }
+
+    .footer {
+      text-align: center;
+      color: #777;
+      margin-top: 20px;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Data Storage Form</h1>
+    <p>Enter your information below. It will be saved to a text file.</p>
+
+    <form id="dataForm" action="process.php" method="POST">
+      <label for="name">Full Name</label>
+      <input type="text" id="name" name="name" required placeholder="Enter your full name">
+
+      <label for="email">Email Address</label>
+      <input type="text" id="email" name="email" required placeholder="Enter your email">
+
+      <label for="message">Your Message</label>
+      <input type="text" id="message" name="message" required placeholder="Enter your message">
+
+      <div class="button-group">
+        <button type="submit" class="submit-btn">Submit</button>
+        <button type="reset" class="reset-btn">Reset</button>
+      </div>
+    </form>
+
+    <div class="result" id="result"></div>
+
+    <div class="footer">
+      <p>Form Data Storage System &copy; 2023</p>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById('dataForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const formData = new FormData(this);
+      fetch('process.php', {
+        method: 'POST',
+        body: formData
+      })
+      .then(res => res.text())
+      .then(data => {
+        const result = document.getElementById('result');
+        result.innerHTML = data;
+        result.style.display = 'block';
+      })
+      .catch(err => console.error('Error:', err));
+    });
+  </script>
+</body>
+</html>
